@@ -2,6 +2,17 @@
 
 ----
 
+### 39.5
+(2022-08-xx)
+
+#### Fixed
+
+- Restored the SQLite library to the previous one to reduce the error phenomenon when closing the application.
+- Fixed a bug that read-only shortcuts could not be processed.
+- Language file update (zh-TW).
+
+----
+
 ### 39.4
 (2022-07-04)
 

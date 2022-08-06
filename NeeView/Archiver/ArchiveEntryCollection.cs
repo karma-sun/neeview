@@ -159,6 +159,7 @@ namespace NeeView
                     {
                         Debug.WriteLine(ex.Message);
                         Debug.WriteLine($"ArchiveEntryCollection.Skip: {entry.EntryName}");
+                        throw;
                     }
                 }
             }

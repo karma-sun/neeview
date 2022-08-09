@@ -3,12 +3,13 @@
 ----
 
 ### 39.5
-(2022-08-xx)
+(2022-08-11)
 
 #### Fixed
 
 - Restored the SQLite library to the previous one to reduce the error phenomenon when closing the application.
 - Fixed a bug that read-only shortcuts could not be processed.
+- Fixed a bug where loading a book with subfolders could not be canceled.
 - Language file update (zh-TW).
 
 ----

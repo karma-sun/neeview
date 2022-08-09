@@ -38,6 +38,7 @@
     <Feature Id="ProductFeature" Title="NeeView" Level="1" AllowAdvertise="no" Absent="disallow" Display="expand" ConfigurableDirectory="INSTALLFOLDER">
       <ComponentGroupRef Id="NeeViewComponents" />
       <ComponentGroupRef Id="DllComponents"/>
+      <ComponentGroupRef Id="SQLiteComponents"/>
       <ComponentGroupRef Id="DocumentComponents" />
       <Feature Id="ContextMenuFeature" Title="ContextMenu" Description="!(loc.contextMenuFeatureDescription)" Level="1" AllowAdvertise="no" >
         <ComponentGroupRef Id="RegistoryComponents" />
@@ -123,4 +124,26 @@
     <Icon Id="App.ico" SourceFile="$(var.AppendDir)App.ico" />
 
   </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="INSTALLFOLDER">
+      <Directory Id="SQLiteFolder" Name="SQLite">
+        <Component Id="cmpSQLiteDll" Guid="*">
+          <File KeyPath="yes" Source="$(var.LibrariesDir)\System.Data.SQLite.dll" />
+        </Component>
+        <Directory Id="SQLiteNativeFolder" Name="$(var.Platform)">
+          <Component Id="cmpSQLiteNativeDll" Guid="*">
+            <File KeyPath="yes" Source="$(var.LibrariesDir)\$(var.Platform)\SQLite.Interop.dll" />
+          </Component>
+        </Directory>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+  <Fragment>
+    <ComponentGroup Id="SQLiteComponents">
+      <ComponentRef Id="cmpSQLiteDll" />
+      <ComponentRef Id="cmpSQLiteNativeDll" />
+    </ComponentGroup>
+  </Fragment>
+
 </Wix>

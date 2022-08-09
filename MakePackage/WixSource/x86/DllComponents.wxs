@@ -78,9 +78,6 @@
                 <Component Id="cmp6AF7B568CD3FC0D3CC8B5EBF544623A3" Guid="*">
                     <File Id="fil7451C509AB19C556DA7907DFE239B6A9" KeyPath="yes" Source="$(var.LibrariesDir)\System.Collections.Immutable.dll" />
                 </Component>
-                <Component Id="cmp3DCCEA2975E18FD4C2DA5E81BF1C60B0" Guid="*">
-                    <File Id="fil1F8EF309A2151F48D57716B34F4C5562" KeyPath="yes" Source="$(var.LibrariesDir)\System.Data.SQLite.dll" />
-                </Component>
                 <Component Id="cmp6201B94C484932AF1231EF41617BC1F9" Guid="*">
                     <File Id="fil381B12F460FED9F36FD3F3BE7BAF10C2" KeyPath="yes" Source="$(var.LibrariesDir)\System.Memory.dll" />
                 </Component>
@@ -163,9 +160,6 @@
                     <Component Id="cmpAFD9B88727EF2AE79E3F8AFBC5A376BB" Guid="*">
                         <File Id="fil4F26D046010EC66BB9B7C7D589AB8C51" KeyPath="yes" Source="$(var.LibrariesDir)\x86\pdfium.dll" />
                     </Component>
-                    <Component Id="cmp3AE14885B4F257F53834F4FFB0C5D35F" Guid="*">
-                        <File Id="fil11ADBC8FCB3B631BAFACEAF9EF53EBD7" KeyPath="yes" Source="$(var.LibrariesDir)\x86\SQLite.Interop.dll" />
-                    </Component>
                 </Directory>
                 <Directory Id="dir603775094AED46243E840BC29C4BF4B8" Name="zh-CN">
                     <Component Id="cmpFB857892CD47742B1DE7D8FDD0147B80" Guid="*">
@@ -207,7 +201,6 @@
             <ComponentRef Id="cmpE473ED87055187ABAC9B0465FBBE823A" />
             <ComponentRef Id="cmpB71736D52F6C6C28DC09A1D54BF9C7BA" />
             <ComponentRef Id="cmp6AF7B568CD3FC0D3CC8B5EBF544623A3" />
-            <ComponentRef Id="cmp3DCCEA2975E18FD4C2DA5E81BF1C60B0" />
             <ComponentRef Id="cmp6201B94C484932AF1231EF41617BC1F9" />
             <ComponentRef Id="cmpE8FAEF65B0E2CD298FD9F28330592354" />
             <ComponentRef Id="cmp469E88A102148B8BD5667462EE59FECD" />
@@ -233,7 +226,6 @@
             <ComponentRef Id="cmpB5C9C3C36D6C8C2303EEC99AEE09D10D" />
             <ComponentRef Id="cmp89A427E599C85A19969C844A8D254DE8" />
             <ComponentRef Id="cmpAFD9B88727EF2AE79E3F8AFBC5A376BB" />
-            <ComponentRef Id="cmp3AE14885B4F257F53834F4FFB0C5D35F" />
             <ComponentRef Id="cmpFB857892CD47742B1DE7D8FDD0147B80" />
             <ComponentRef Id="cmpCAE8E30DDD8643BAD25655DD0CF0F8FE" />
         </ComponentGroup>

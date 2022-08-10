@@ -155,11 +155,14 @@ namespace NeeView
                         var subEntries = await subArchive.GetEntriesAsync(token);
                         result.AddRange(await GetSubArchivesEntriesAsync(subEntries, token));
                     }
+                    catch (OperationCanceledException)
+                    {
+                        throw;
+                    }
                     catch (Exception ex)
                     {
                         Debug.WriteLine(ex.Message);
                         Debug.WriteLine($"ArchiveEntryCollection.Skip: {entry.EntryName}");
-                        throw;
                     }
                 }
             }

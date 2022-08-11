@@ -25,6 +25,11 @@ namespace NeeView.Native
             [DllImport("NeeView.Interop.dll")]
             public static extern void NVFpReset();
 
+            [DllImport("NeeView.Interop.dll", CharSet = CharSet.Unicode)]
+            [return: MarshalAs(UnmanagedType.I1)]
+            public static extern bool NVGetFullPathFromShortcut([MarshalAs(UnmanagedType.LPWStr)] string shortcut, StringBuilder fullPath);
+
+
 #if false // FPU設定のテスト用
             [DllImport("msvcrt.dll", CallingConvention = CallingConvention.Cdecl)]
             public extern static uint _controlfp(uint newcw, uint mask);
@@ -73,5 +78,11 @@ namespace NeeView.Native
         {
             NativeMethods.NVFpReset();
         }
+
+        public static bool NVGetFullPathFromShortcut(string shortcut, StringBuilder fullPath)
+        {
+            return NativeMethods.NVGetFullPathFromShortcut(shortcut, fullPath);
+        }
+
     }
 }

@@ -71,7 +71,6 @@ namespace NeeView.IO
             try
             {
                 var targetPath = GetLinkTargetPath(source);
-                ////var targetPath = AppDispatcher.InvokeSTA(() => GetLinkTargetPathSTA(source));
 
                 var directoryInfo = new DirectoryInfo(targetPath);
                 if (directoryInfo.Attributes.HasFlag(FileAttributes.Directory))
@@ -106,65 +105,15 @@ namespace NeeView.IO
                 throw new FileNotFoundException();
             }
 
-            // NOTE: MTAでも動作するようにdynamic型を使用
-            var shellAppType = Type.GetTypeFromProgID("Shell.Application");
-            dynamic shell = Activator.CreateInstance(shellAppType);
-            Shell32.Folder dir = shell.NameSpace(linkFile.DirectoryName);
-            Shell32.FolderItem item = dir.Items().Item(linkFile.Name);
-            if (!item.IsLink)
+            var targetPath = new StringBuilder(1024);
+            var isSuccess = NeeView.Native.Interop.NVGetFullPathFromShortcut(linkFile.FullName, targetPath);
+            if (!isSuccess)
             {
-                throw new NotSupportedException($"{linkFile.FullName} is not link file.");
+                throw new IOException("IShellLink error.");
             }
 
-            Shell32.ShellLinkObject link = (Shell32.ShellLinkObject)item.GetLink;
-            Shell32.FolderItem target = link.Target;
-
-            return target.Path;
+            return targetPath.ToString();
         }
 
-        /// <summary>
-        /// ショートカットのターゲットパスを取得(STA)
-        /// </summary>
-        /// <param name="linkFile">ショートカットファイル</param>
-        /// <returns>ターゲットパス</returns>
-        private static string GetLinkTargetPathSTA(FileInfo linkFile)
-        {
-            AssertSTA();
-            
-            if (linkFile is null)
-            {
-                throw new ArgumentNullException(nameof(linkFile));
-            }
-            if (!linkFile.Exists)
-            {
-                throw new FileNotFoundException();
-            }
-
-            Shell32.Shell shell = new Shell32.Shell();
-            Shell32.Folder dir = shell.NameSpace(linkFile.DirectoryName);
-            Shell32.FolderItem item = dir.Items().Item(linkFile.Name);
-            if (!item.IsLink)
-            {
-                throw new NotSupportedException($"{linkFile.FullName} is not link file.");
-            }
-
-            Shell32.ShellLinkObject link = (Shell32.ShellLinkObject)item.GetLink;
-            Shell32.FolderItem target = link.Target;
-
-            return target.Path;
-        }
-
-        /// <summary>
-        /// check STA
-        /// </summary>
-        [Conditional("DEBUG")]
-        private static void AssertSTA()
-        {
-            if (System.Threading.Thread.CurrentThread.GetApartmentState() != System.Threading.ApartmentState.STA)
-            {
-                Debug.Fail("Must be a STA thread.");
-                throw new System.Threading.ThreadStateException("Must be a STA thread.");
-            }
-        }
     }
 }

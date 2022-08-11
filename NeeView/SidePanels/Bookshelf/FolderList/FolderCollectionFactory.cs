@@ -97,6 +97,10 @@ namespace NeeView
                 collection = new FolderEntryCollection(path, isActive, _isOverlayEnabled);
                 await collection.InitializeItemsAsync(token);
             }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
             catch (Exception ex)
             {
                 // NOTE: 救済措置。取得に失敗した時はカレントディレクトリに移動
@@ -131,6 +135,10 @@ namespace NeeView
                 token.ThrowIfCancellationRequested();
                 return collection;
             }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
             catch (Exception ex)
             {
                 // NOTE: 展開できない場合、実在パスでの展開を行う
@@ -149,6 +157,10 @@ namespace NeeView
                 await collection.InitializeItemsAsync(token);
                 token.ThrowIfCancellationRequested();
                 return collection;
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
             }
             catch (Exception ex)
             {

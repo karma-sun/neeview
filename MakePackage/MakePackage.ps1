@@ -368,6 +368,9 @@ function New-ConfigForMsi($inputDir, $config, $outputDir)
 	# make config for installer
 	[xml]$xml = Get-Content "$inputDir\$config"
 
+	$probing = $xml.configuration.runtime.assemblyBinding.probing | Select -First 1
+	$probing.privatePath = 'Libraries;SQLite'
+
 	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'PackageType' } | Select -First 1
 	$add.value = '.msi'
 
